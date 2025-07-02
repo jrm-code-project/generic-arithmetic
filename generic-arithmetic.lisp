@@ -77,10 +77,19 @@
   (:method ((left (eql 1.0d0)) right)
     (reciprocal right))
   (:method ((left number) (right number))
-    (cl:/ left right)))
+    (cl:/ left right))
+  (:method (left right)
+    (multiply2 left (reciprocal right)))
+  )
 
 (defgeneric exp (number)
   (:documentation #.(documentation 'cl:exp 'cl:function))
+  (:method ((number (eql 0)))
+    1)
+  (:method ((number (eql 0.0)))
+    1.0)
+  (:method ((number (eql 0.0d0)))
+    1.0d0)
   (:method ((number number))
     (cl:exp number)))
 
@@ -104,6 +113,12 @@
 
 (defgeneric log (number &optional base)
   (:documentation #.(documentation 'cl:log 'cl:function))
+  (:method ((number (eql 1)) &optional base)
+    0)
+  (:method ((number (eql 1.0)) &optional base)
+    0.0)
+  (:method ((number (eql 1.0d0)) &optional base)
+    0.0d0)
   (:method ((number number) &optional base)
     (cl:log number (or base (cl:exp 1.0d0)))))
 
@@ -157,6 +172,8 @@
     (- right))
   (:method ((left (eql 0.0d0)) right)
     (- right))
+  (:method (left right)
+    (add2 left (negate right)))
   (:method ((left number) (right number))
     (cl:- left right)))
 
@@ -231,7 +248,7 @@
 
 (defgeneric denominator (rational)
   (:documentation #.(documentation 'cl:denominator 'cl:function))
-  (:method ((rational ratio))
+  (:method ((rational cl:rational))
     (cl:denominator rational)))
 
 (defgeneric fceiling (number &optional divisor)
@@ -345,7 +362,7 @@
 
 (defgeneric numerator (rational)
   (:documentation #.(documentation 'cl:numerator 'cl:function))
-  (:method ((rational ratio))
+  (:method ((rational cl:rational))
     (cl:numerator rational)))
 
 (defgeneric phase (number)
