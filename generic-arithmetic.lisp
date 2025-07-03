@@ -34,6 +34,7 @@
     (cl:< left right)))
 
 (defun < (leftmost next &rest more)
+  #.(documentation 'cl:< 'cl:function)
   (fold-left (lambda (previous next)
                (and previous (<2 previous next) next))
              leftmost (cons next more)))
@@ -44,6 +45,7 @@
     (cl:<= left right)))
 
 (defun <= (leftmost next &rest more)
+  #.(documentation 'cl:<= 'cl:function)
   (fold-left (lambda (previous next)
                (and previous (<=2 previous next) next))
              leftmost (cons next more)))
@@ -54,6 +56,7 @@
     (cl:= left right)))
 
 (defun = (leftmost next &rest more)
+  #.(documentation 'cl:= 'cl:function)
   (fold-left (lambda (previous next)
                (and previous (=2 previous next) next))
              leftmost (cons next more)))
@@ -64,6 +67,7 @@
     (cl:> left right)))
 
 (defun > (leftmost next &rest more)
+  #.(documentation 'cl:> 'cl:function)
   (fold-left (lambda (previous next)
                (and previous (>2 previous next) next))
              leftmost (cons next more)))
@@ -74,6 +78,7 @@
     (cl:>= left right)))
 
 (defun >= (leftmost next &rest more)
+  #.(documentation 'cl:>= 'cl:function)
   (fold-left (lambda (previous next)
                (and previous (>=2 previous next) next))
              leftmost (cons next more)))
@@ -84,6 +89,7 @@
     (cl:/= left right)))
 
 (defun /= (leftmost &rest more)
+  #.(documentation 'cl:/= 'cl:function)
   (if (fold-left (lambda (items item)
                    (and items
                         (every (lambda (itm) (/=2 item itm)) items)
@@ -197,7 +203,7 @@
 
 (defgeneric cube (number)
   (:documentation "Compute the cube of NUMBER.")
-  (:method (number number)
+  (:method (number)
     (multiply2 number (multiply2 number number))))
 
 (defgeneric denominator (rational)
@@ -222,7 +228,7 @@
   (:method ((left number) (right (eql 1.0)))
     (coerce left 'single-float))
   (:method ((left number) (right (eql 1.0d0)))
-    coerce left 'double-float)
+    (coerce left 'double-float))
   (:method ((left number) (right number))
     (cl:/ left right))
   (:method (left right)
@@ -303,7 +309,7 @@
     (cl:max left right)))
 
 (defun max (leftmost &rest more-numbers)
-  (:documentation #.(documentation 'cl:max 'cl:function))
+  #.(documentation 'cl:max 'cl:function)
   (fold-left #'max2 leftmost more-numbers))
 
 (defgeneric min2 (left right)
@@ -312,7 +318,7 @@
     (cl:min left right)))
 
 (defun min (leftmost &rest more-numbers)
-  (:documentation #.(documentation 'cl:min 'cl:function))
+  #.(documentation 'cl:min 'cl:function)
   (fold-left #'min2 leftmost more-numbers))
 
 (defgeneric mod (number divisor)
@@ -440,7 +446,7 @@
   (:method ((left (eql 0)) (right number))
     (cl:- right))
   (:method ((left (eql 0.0)) (right number))
-    (cl:- (coerce right 'single-float))))
+    (cl:- (coerce right 'single-float)))
   (:method ((left (eql 0.0d0)) (right number))
     (cl:- (coerce right 'double-float)))
   (:method (left (right (eql 0)))
