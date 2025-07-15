@@ -2,14 +2,6 @@
 
 (in-package "GENERIC-ARITHMETIC")
 
-(defun * (&rest numbers)
-  #.(documentation 'cl:* 'cl:function)
-  (fold-left #'multiply2 1 numbers))
-
-(defun + (&rest numbers)
-  #.(documentation 'cl:+ 'cl:function)
-  (fold-left #'add2 0 numbers))
-
 (defun - (leftmost &rest rights)
   #.(documentation 'cl:- 'cl:function)
   (cond ((consp rights) (fold-left #'subtract2 leftmost rights))
@@ -151,6 +143,9 @@
     (coerce left 'double-float))
   (:method ((left number) (right number))
     (cl:+ left right)))
+
+(deff + (binary->n-ary #'add2 0)
+    #.(documentation 'cl:+ 'cl:function))
 
 (defgeneric asin (number)
   (:documentation #.(documentation 'cl:asin 'cl:function))
@@ -308,18 +303,16 @@
   (:method ((left number) (right number))
     (cl:max left right)))
 
-(defun max (leftmost &rest more-numbers)
-  #.(documentation 'cl:max 'cl:function)
-  (fold-left #'max2 leftmost more-numbers))
+(deff max (binary->n-ary1 #'max2)
+    #.(documentation 'cl:max 'cl:function))
 
 (defgeneric min2 (left right)
   (:documentation #.(documentation 'cl:min 'cl:function))
   (:method ((left number) (right number))
     (cl:min left right)))
 
-(defun min (leftmost &rest more-numbers)
-  #.(documentation 'cl:min 'cl:function)
-  (fold-left #'min2 leftmost more-numbers))
+(deff min (binary->n-ary1 #'min2)
+    #.(documentation 'cl:min 'cl:function))
 
 (defgeneric mod (number divisor)
   (:documentation #.(documentation 'cl:mod 'cl:function))
@@ -362,6 +355,9 @@
     (coerce left 'double-float))
   (:method ((left number) (right number))
     (cl:* left right)))
+
+(deff * (binary->n-ary #'multiply2 1)
+    #.(documentation 'cl:* 'cl:function))
 
 (defgeneric negate (number)
   (:documentation "Return (- number)")

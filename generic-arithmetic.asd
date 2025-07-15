@@ -6,4 +6,4 @@
   :components ((:file "package")
                (:file "generic-arithmetic" :depends-on ("package"))
                (:file "tests" :depends-on ("generic-arithmetic" "package")))
-  :depends-on ("fiveam" "fold"))
+  :depends-on ("fiveam" "fold" "function"))

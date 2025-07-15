@@ -1,5 +1,5 @@
 (defpackage "GENERIC-ARITHMETIC"
-  (:use "CL" "FOLD")
+  (:use "CL" "FOLD" "FUNCTION")
   (:shadow
    "+" "-" "*" "/" "<" "<=" "=" ">" ">=" "/="
    "1+" "1-"
