@@ -97,12 +97,18 @@
   (:method ((number number))
     (cl:1+ number)))
 
+(defmethod inverse ((function (eql #'1+))) #'1-)
+(defmethod inverse ((function (eql '1+)))   '1)
+
 (defgeneric 1- (number)
   (:documentation #.(documentation 'cl:1- 'cl:function))
   (:method (number)
     (subtract2 number 1))
   (:method ((number number))
     (cl:1- number)))
+
+(defmethod inverse ((function (eql #'1+))) #'1+)
+(defmethod inverse ((function (eql '1+)))   '1+)
 
 (defgeneric abs (number)
   (:documentation #.(documentation 'cl:abs 'cl:function))
@@ -111,13 +117,17 @@
 
 (defgeneric acos (number)
   (:documentation #.(documentation 'cl:acos 'cl:function))
-  (:method ((number number))
-    (cl:acos number)))
+  (:method ((number number)) (cl:acos number)))
+
+(defmethod inverse ((function (eql #'acos))) #'cos)
+(defmethod inverse ((function (eql 'acos)))   'cos)
 
 (defgeneric acosh (number)
   (:documentation #.(documentation 'cl:acosh 'cl:function))
-  (:method ((number number))
-    (cl:acosh number)))
+  (:method ((number number)) (cl:acosh number)))
+
+(defmethod inverse ((function (eql #'acosh))) #'cosh)
+(defmethod inverse ((function (eql 'acosh)))   'cosh)
 
 (defgeneric add2 (left right)
   (:documentation "Add LEFT and RIGHT.")
@@ -149,13 +159,18 @@
 
 (defgeneric asin (number)
   (:documentation #.(documentation 'cl:asin 'cl:function))
-  (:method ((number number))
-    (cl:asin number)))
+  (:method ((number number)) (cl:asin number)))
+
+(defmethod inverse ((function (eql #'asin))) #'sin)
+(defmethod inverse ((function (eql 'asin)))   'sin)
 
 (defgeneric asinh (number)
   (:documentation #.(documentation 'cl:asinh 'cl:function))
   (:method ((number number))
     (cl:asinh number)))
+
+(defmethod inverse ((function (eql #'asinh))) #'sinh)
+(defmethod inverse ((function (eql 'asinh)))   'sinh)
 
 (defgeneric atan (number &optional denominator)
   (:documentation "Compute the arctangent of NUMBER. If DENOMINATOR is provided, compute atan(NUMBER / DENOMINATOR).")
@@ -168,6 +183,9 @@
   (:documentation #.(documentation 'cl:atanh 'cl:function))
   (:method ((number number))
     (cl:atanh number)))
+
+(defmethod inverse ((function (eql #'atanh))) #'tanh)
+(defmethod inverse ((function (eql 'atanh)))   'tanh)
 
 (defgeneric ceiling (number &optional divisor)
   (:documentation #.(documentation 'cl:ceiling 'cl:function))
@@ -186,15 +204,22 @@
   (:method ((number number))
     (cl:conjugate number)))
 
+(defmethod inverse ((function (eql #'conjugate))) #'conjugate)
+(defmethod inverse ((function (eql 'conjugate)))   'conjugate)
+
 (defgeneric cos (number)
   (:documentation #.(documentation 'cl:cos 'cl:function))
-  (:method ((number number))
-    (cl:cos number)))
+  (:method ((number number)) (cl:cos number)))
+
+(defmethod inverse ((function (eql #'cos))) #'acos)
+(defmethod inverse ((function (eql 'cos)))   'acos)
 
 (defgeneric cosh (number)
   (:documentation #.(documentation 'cl:cosh 'cl:function))
-  (:method ((number number))
-    (cl:cosh number)))
+  (:method ((number number)) (cl:cosh number)))
+
+(defmethod inverse ((function (eql #'cosh))) #'acosh)
+(defmethod inverse ((function (eql 'cosh)))   'acosh)
 
 (defgeneric cube (number)
   (:documentation "Compute the cube of NUMBER.")
@@ -203,8 +228,7 @@
 
 (defgeneric denominator (rational)
   (:documentation #.(documentation 'cl:denominator 'cl:function))
-  (:method ((rational rational))
-    (cl:denominator rational)))
+  (:method ((rational rational)) (cl:denominator rational)))
 
 (defgeneric divide2 (left right)
   (:documentation "Divide LEFT by RIGHT.")
@@ -240,6 +264,9 @@
     1.0d0)
   (:method ((number number))
     (cl:exp number)))
+
+(defmethod inverse ((function (eql #'exp))) #'log)
+(defmethod inverse ((function (eql 'exp)))   'log)
 
 (defgeneric expt (base exponent)
   (:documentation #.(documentation 'cl:expt 'cl:function))
@@ -297,6 +324,9 @@
     0.0d0)
   (:method ((number number) &optional base)
     (cl:log number (or base (cl:exp 1.0d0)))))
+
+(defmethod inverse ((function (eql #'log))) #'exp)
+(defmethod inverse ((function (eql 'log)))   'exp)
 
 (defgeneric max2 (left right)
   (:documentation #.(documentation 'cl:max 'cl:function))
@@ -364,6 +394,9 @@
   (:method ((number number))
     (cl:- number)))
 
+(defmethod inverse ((function (eql #'negate))) #'negate)
+(defmethod inverse ((function (eql 'negate)))   'negate)
+
 (defgeneric numerator (rational)
   (:documentation #.(documentation 'cl:numerator 'cl:function))
   (:method ((rational rational))
@@ -394,6 +427,9 @@
   (:method ((number number))
     (cl:/ 1 number)))
 
+(defmethod inverse ((function (eql #'reciprocal))) #'reciprocal)
+(defmethod inverse ((function (eql 'reciprocal)))   'reciprocal)
+
 (defgeneric rem (number divisor)
   (:documentation #.(documentation 'cl:rem 'cl:function))
   (:method ((number number) (divisor number))
@@ -413,23 +449,31 @@
 
 (defgeneric sin (number)
   (:documentation #.(documentation 'cl:sin 'cl:function))
-  (:method ((number number))
-    (cl:sin number)))
+  (:method ((number number)) (cl:sin number)))
+
+(defmethod inverse ((function (eql #'sin))) #'asin)
+(defmethod inverse ((function (eql 'sin)))   'asin)
 
 (defgeneric sinh (number)
   (:documentation #.(documentation 'cl:sinh 'cl:function))
-  (:method ((number number))
-    (cl:sinh number)))
+  (:method ((number number)) (cl:sinh number)))
+
+(defmethod inverse ((function (eql #'sinh))) #'asinh)
+(defmethod inverse ((function (eql 'sinh)))   'asinh)
 
 (defgeneric sqrt (number)
   (:documentation #.(documentation 'cl:sqrt 'cl:function))
-  (:method ((number number))
-    (cl:sqrt number)))
+  (:method ((number number)) (cl:sqrt number)))
+
+(defmethod inverse ((function (eql #'sqrt))) #'square)
+(defmethod inverse ((function (eql 'sqrt)))   'square)
 
 (defgeneric square (number)
   (:documentation "Compute the square of NUMBER.")
-  (:method (number)
-    (multiply2 number number)))
+  (:method (number) (multiply2 number number)))
+
+(defmethod inverse ((function (eql #'square))) #'sqrt)
+(defmethod inverse ((function (eql 'square)))   'sqrt)
 
 (defgeneric subtract2 (left right)
   (:documentation "Subtract RIGHT from LEFT.")
@@ -462,13 +506,17 @@
 
 (defgeneric tan (number)
   (:documentation #.(documentation 'cl:tan 'cl:function))
-  (:method ((number number))
-    (cl:tan number)))
+  (:method ((number number)) (cl:tan number)))
+
+(defmethod inverse ((function (eql #'tan))) #'atan)
+(defmethod inverse ((function (eql 'tan)))   'atan)
 
 (defgeneric tanh (number)
   (:documentation #.(documentation 'cl:tanh 'cl:function))
-  (:method ((number number))
-    (cl:tanh number)))
+  (:method ((number number)) (cl:tanh number)))
+
+(defmethod inverse ((function (eql #'tanh))) #'atanh)
+(defmethod inverse ((function (eql 'tanh)))   'atanh)
 
 (defgeneric truncate (number &optional divisor)
   (:documentation #.(documentation 'cl:truncate 'cl:function))
@@ -479,5 +527,4 @@
 
 (defgeneric zerop (number)
   (:documentation #.(documentation 'cl:zerop 'cl:function))
-  (:method ((number number))
-    (cl:zerop number)))
+  (:method ((number number)) (cl:zerop number)))
